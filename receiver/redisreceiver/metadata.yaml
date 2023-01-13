@@ -36,6 +36,12 @@ attributes:
   cmd:
     description: Redis command name
     type: string
+  shard_id:
+    description: Redis shard identifier
+    type: string
+  replica:
+    description: Replica identifier
+    type: string
 
 metrics:
   redis.maxmemory:
@@ -284,9 +290,25 @@ metrics:
   redis.replication.offset:
     enabled: true
     description: The server's current replication offset
-    unit: ""
+    unit: By
     gauge:
       value_type: int
+
+  redis.replication.replica_offset:
+    enabled: true
+    description: The replica's current replication offset
+    unit: By
+    gauge:
+      value_type: int
+    attributes: [replica]
+
+  redis.replication.replication_lag:
+    enabled: true
+    description: The replica's replication lag
+    unit: s
+    gauge:
+      value_type: double
+    attributes: [replica]
 
   redis.db.keys:
     enabled: true
@@ -311,3 +333,11 @@ metrics:
     gauge:
       value_type: int
     attributes: [db]
+  
+  redis.shard.shard_id:
+    enabled: true
+    description: "Cluster shard identifier"
+    unit: ""
+    gauge:
+      value_type: int
+    attributes: [shard_id]
